@@ -1,0 +1,16 @@
+---
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: eeveebot-lb001-traefik
+  labels:
+    bgp: enabled
+spec:
+  blocks:
+  - cidr: "149.28.45.66/32"
+  - cidr: "2001:19F0:6:ec9::/64"
+  allowFirstLastIPs: "Yes"
+  serviceSelector:
+    matchLabels:
+      "io.kubernetes.service.namespace": "traefik"
+      "eeveebot-lb001-traefik": "true"

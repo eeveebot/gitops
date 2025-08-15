@@ -1,0 +1,109 @@
+---
+
+- name: Install rke2
+  hosts: all
+  tasks:
+    - name: Ensure packages are installed
+      become: true
+      become_user: root
+      ansible.builtin.apt:
+        pkg:
+          - gnupg2
+          - cloud-guest-utils
+          - gdisk
+          - linux-image-generic-hwe-24.04
+        state: latest
+        update_cache: true
+
+    - name: Disable UFW
+      become: true
+      become_user: root
+      ansible.builtin.command:
+        cmd: "ufw disable"
+      changed_when: true
+      failed_when: false
+
+    - name: Ensure ufw is purged
+      become: true
+      become_user: root
+      ansible.builtin.apt:
+        pkg:
+          - ufw
+        state: absent
+
+    - name: Fetch rke2 installer
+      become: true
+      become_user: root
+      ansible.builtin.get_url:
+        url: https://get.rke2.io
+        dest: /tmp/install_rke2.sh
+        mode: '0700'
+        owner: root
+        group: root
+
+    - name: Run rke2 installer
+      become: true
+      become_user: root
+      ansible.builtin.command:
+        cmd: /tmp/install_rke2.sh
+      changed_when: true
+
+    - name: Ensure rke2 config dir exists
+      become: true
+      become_user: root
+      ansible.builtin.file:
+        dest: /etc/rancher/rke2/
+        state: directory
+        owner: root
+        group: root
+        mode: '0700'
+
+    - name: Template rke2 config file - control-plane
+      become: true
+      become_user: root
+      ansible.builtin.template:
+        src: "{{ playbook_dir }}/../tmpl/rke2-config-server.yaml"
+        dest: /etc/rancher/rke2/config.yaml
+        owner: root
+        group: root
+        mode: '0700'
+      vars:
+        tmpl_rke2_token: "{{ rke2_token }}"
+        tmpl_cluster_cidr: "{{ rke2_cluster_cidr }}"
+        tmpl_service_cidr: "{{ rke2_service_cidr }}"
+        tmpl_cluster_dns: "{{ rke2_cluster_dns }}"
+      when:
+        - (inventory_hostname in groups['control_plane'])
+
+    - name: Template rke2 config file - agent
+      become: true
+      become_user: root
+      ansible.builtin.template:
+        src: "{{ playbook_dir }}/../tmpl/rke2-config-agent.yaml"
+        dest: /etc/rancher/rke2/config.yaml
+        owner: root
+        group: root
+        mode: '0700'
+      vars:
+        tmpl_rke2_token: "{{ rke2_token }}"
+      when:
+        - (inventory_hostname in groups['worker'])
+
+    - name: Create symlink from /usr/local/share/rke2/rke2-cis-sysctl.conf to /etc/sysctl.d/
+      become: true
+      become_user: root
+      ansible.builtin.file:
+        src: /usr/local/share/rke2/rke2-cis-sysctl.conf
+        dest: /etc/sysctl.d/60-rke2-cis.conf
+        force: true
+        owner: root
+        group: root
+        state: link
+
+    - name: Run sysctl --system
+      become: true
+      become_user: root
+      ansible.builtin.command:
+        cmd: "sysctl --system"
+      changed_when: true
+      failed_when: false

@@ -1,0 +1,46 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: eevee-operator
+  namespace: flux-system
+spec:
+  interval: 60m
+  url: https://helm.eevee.bot/
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: eevee-operator
+  namespace: flux-system
+spec:
+  interval: 60m
+  targetNamespace: eevee-system
+  install:
+    createNamespace: true
+    crds: CreateReplace
+  chart:
+    spec:
+      chart: eevee-operator
+      sourceRef:
+        kind: HelmRepository
+        name: eevee-operator
+        namespace: flux-system
+      interval: 60m
+  values:
+    # Namespace for the operator
+    operatorNamespace: eevee-system
+
+    # Enable metrics (prometheus CRDs must be installed first)
+    metrics:
+      enabled: true
+
+    # Enable eevee CRD Deployment Job
+    crds:
+      install: true
+
+    # Enable deployment of the eevee-bot operator itself
+    operator:
+      enabled: true
+      replicas: 1

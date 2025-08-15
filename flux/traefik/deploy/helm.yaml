@@ -1,0 +1,95 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  interval: 60m
+  url: https://traefik.github.io/charts
+
+---
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  interval: 60m
+  targetNamespace: traefik
+  install:
+    createNamespace: true
+    crds: CreateReplace
+  chart:
+    spec:
+      chart: traefik
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: flux-system
+      interval: 60m
+  values:
+    logs:
+      access:
+        enabled: true
+    providers:
+      kubernetesCRD:
+        allowCrossNamespace: true
+        allowExternalNameServices: true
+        allowEmptyServices: true
+      kubernetesIngress:
+        enabled: true
+        allowExternalNameServices: true
+        allowEmptyServices: true
+      file:
+        enabled: true
+        watch: true
+        content: ""
+    metrics:
+      prometheus:
+        service:
+          enabled: false
+        serviceMonitor:
+          enabled: false
+    ports:
+      traefik:
+        expose:
+          default: false
+      web:
+        redirections:
+          entryPoint:
+            to: websecure
+            scheme: https
+            permanent: true
+        expose:
+          default: true
+        exposedPort: 80
+        forwardedHeaders:
+          trustedIPs: []
+      websecure:
+        expose:
+          default: true
+        exposedPort: 443
+        forwardedHeaders:
+          trustedIPs: []
+    service:
+      enabled: true
+      single: true
+      type: LoadBalancer
+      labels:
+        eeveebot-lb001-traefik: "true"
+        bgp: enabled
+      annotations:
+        "lbipam.cilium.io/ips": "149.28.45.66,2001:19F0:6:ec9::100"
+      ipFamilyPolicy: RequireDualStack
+      ipFamilies:
+      - IPv4
+      - IPv6
+      loadBalancerClass: "io.cilium/bgp-control-plane"
+      externalTrafficPolicy: Local
+      internalTrafficPolicy: Local
+    persistence:
+      enabled: true
+      accessMode: ReadWriteMany
+      storageClass: "vfs"

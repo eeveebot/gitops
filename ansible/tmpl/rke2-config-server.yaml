@@ -1,0 +1,25 @@
+---
+
+debug: true
+
+server: "https://rke2.ny.eevee.bot:9345"
+
+token: "{{ tmpl_rke2_token }}"
+
+protect-kernel-defaults: true
+
+tls-san:
+  - "rke2.ny.eevee.bot"
+  - "127.0.0.1"
+  - "::1"
+
+cluster-cidr: "{{ tmpl_cluster_cidr }}"
+service-cidr: "{{ tmpl_service_cidr }}"
+cluster-dns: "{{ tmpl_cluster_dns }}"
+
+cni: none
+
+disable-kube-proxy: true
+
+disable:
+  - rke2-ingress-nginx
