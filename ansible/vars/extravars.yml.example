@@ -1,0 +1,7 @@
+---
+
+rke2_token: areallystrongtoken
+
+rke2_cluster_cidr: "172.16.0.0/16,fd16:feed:f00d::/64"
+rke2_service_cidr: "172.18.0.0/16,fd18:feed:f00d::/112"
+rke2_cluster_dns: "172.18.0.10,fd18:feed:f00d::10"
