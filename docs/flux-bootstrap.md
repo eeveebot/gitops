@@ -1,7 +1,10 @@
-# cilium bootstrap
+## cilium bootstrap
 
+```bash
+helm upgrade --install kube-system-cilium cilium/cilium --values cilium-initial-helm.yaml --namespace kube-system --version 1.18.6
+```
 
-# flux-bootstrap
+## flux-bootstrap
 
 ```bash
 flux bootstrap github \
