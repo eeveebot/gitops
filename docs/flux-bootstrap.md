@@ -7,6 +7,7 @@ helm upgrade --install kube-system-cilium cilium/cilium --values cilium-initial-
 ## flux-bootstrap
 
 ```bash
+flux install
 flux bootstrap github \
   --deploy-token-auth \
   --owner=eeveebot \
