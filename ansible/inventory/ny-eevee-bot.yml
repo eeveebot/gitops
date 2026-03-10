@@ -1,14 +1,9 @@
 ---
 
-all:
-  vars:
-    ansible_user: root
-
 control_plane:
   hosts:
-    ny101.eevee.bot: {}
-    ny102.eevee.bot: {}
-    ny103.eevee.bot: {}
+    ny101.eevee.bot:
+      ansible_user: ubuntu
 
 worker:
   hosts: {}

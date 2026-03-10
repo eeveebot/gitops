@@ -2,6 +2,7 @@
 
 - name: Install rke2
   hosts: all
+  become: true
   tasks:
     - name: Ensure packages are installed
       become: true
