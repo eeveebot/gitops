@@ -9,7 +9,6 @@ spec:
   url: https://traefik.github.io/charts
 
 ---
-
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -30,9 +29,14 @@ spec:
         namespace: flux-system
       interval: 60m
   values:
+    deployment:
+      enabled: true
+      kind: Deployment
+      replicas: 1
     logs:
       access:
         enabled: true
+        format: common
     providers:
       kubernetesCRD:
         allowCrossNamespace: true
@@ -46,6 +50,8 @@ spec:
         enabled: true
         watch: true
         content: ""
+    experimental:
+      plugins: {}
     metrics:
       prometheus:
         service:
@@ -57,39 +63,28 @@ spec:
         expose:
           default: false
       web:
-        redirections:
-          entryPoint:
-            to: websecure
-            scheme: https
-            permanent: true
         expose:
           default: true
         exposedPort: 80
-        forwardedHeaders:
-          trustedIPs: []
+        http:
+          redirections:
+            entryPoint:
+              to: websecure
+              scheme: https
+              permanent: true
       websecure:
         expose:
           default: true
         exposedPort: 443
-        forwardedHeaders:
-          trustedIPs: []
     service:
       enabled: true
-      single: true
+      single: false
       type: LoadBalancer
       labels:
-        eeveebot-lb001-traefik: "true"
-        bgp: enabled
+        ip-pool: vlan10
       annotations:
-        "lbipam.cilium.io/ips": "149.28.45.66,2001:19F0:6:ec9::100"
-      ipFamilyPolicy: RequireDualStack
+        "lbipam.cilium.io/ips": "192.168.10.79"
+        "lbipam.cilium.io/sharing-key": "192.168.10.79"
+      ipFamilyPolicy: SingleStack
       ipFamilies:
       - IPv4
-      - IPv6
-      loadBalancerClass: "io.cilium/bgp-control-plane"
-      externalTrafficPolicy: Local
-      internalTrafficPolicy: Local
-    persistence:
-      enabled: true
-      accessMode: ReadWriteMany
-      storageClass: "vfs"
