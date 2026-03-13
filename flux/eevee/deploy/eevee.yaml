@@ -136,17 +136,17 @@ spec:
 
           moduleConfig:
             admins:
-              - displayName: "goos"
-                # Unique identifier for this admin
-                uuid: "0aeb8706-a7fa-4783-be4b-1856ac51af13"
-                # Platforms this admin is accepted on (regex patterns)
-                acceptedPlatforms:
-                  - "irc"
-                # Authentication methods for this admin
-                authentication:
-                  # Currently supporting IRC hostmask identification
-                  irc:
-                    hostmask: "goos!goos@Fish-tri.8c3.136.150.IP"
+            - displayName: "goos"
+              # Unique identifier for this admin
+              uuid: "0aeb8706-a7fa-4783-be4b-1856ac51af13"
+              # Platforms this admin is accepted on (regex patterns)
+              acceptedPlatforms:
+              - "irc"
+              # Authentication methods for this admin
+              authentication:
+                # Currently supporting IRC hostmask identification
+                irc:
+                  hostmask: "goos!goos@Fish-tri.8c3.136.150.IP"
 
       - name: echo
         spec:
