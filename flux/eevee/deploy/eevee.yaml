@@ -60,34 +60,6 @@ spec:
                   name: nats-auth-secret
                 key: token
 
-      # Router configuration
-      router:
-        # Enable router deployment
-        enabled: true
-
-        # Router spec
-        spec:
-          # Number of toolbox instances to deploy
-          size: 1
-
-          # Container image to use
-          image: ghcr.io/eeveebot/router:latest
-
-          # Image pull policy
-          pullPolicy: Always
-
-          # Enable metrics
-          metrics: true
-
-          # Metrics port
-          metricsPort: 8080
-
-          # IPC configuration name
-          ipcConfig: eevee-bot
-
-          # Router configuration
-          moduleConfig: {}
-
       # Toolbox configuration
       toolbox:
         # Enable toolbox deployment
@@ -178,6 +150,32 @@ spec:
 
       # Bot Modules
       botModules:
+      - name: router
+        spec:
+          # Number of module instances to deploy
+          size: 1
+
+          # Container image to use
+          image: ghcr.io/eeveebot/router:latest
+
+          # Image pull policy
+          pullPolicy: Always
+
+          # Enable metrics
+          metrics: true
+
+          # Metrics port
+          metricsPort: 8080
+
+          # IPC configuration name
+          ipcConfig: eevee-bot
+
+          # Module name - this identifies it as a router
+          moduleName: router
+
+          # Router configuration
+          moduleConfig: {}
+
       - name: admin
         spec:
           # Number of module instances to deploy
