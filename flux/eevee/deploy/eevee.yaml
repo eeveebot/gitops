@@ -156,8 +156,8 @@ spec:
 
             # IRC Ident information
             ident:
-              nick: eevee
-              username: eevee
+              nick: eevee-dev
+              username: eevee-dev
               gecos: eevee.bot
               version: "0.4.20"
               quitMsg: "eevee 0.4.20"
