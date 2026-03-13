@@ -2,11 +2,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: eevee-operator
+  name: eevee
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./flux/eevee-operator/deploy
+  path: ./flux/eevee/deploy
   prune: false
   sourceRef:
     kind: GitRepository

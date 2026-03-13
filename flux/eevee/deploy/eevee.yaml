@@ -1,0 +1,88 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: eevee-eevee
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: eevee-bot
+  install:
+    createNamespace: true
+    crds: CreateReplace
+  dependsOn:
+    - name: eevee-crds
+      namespace: flux-system
+  chart:
+    spec:
+      chart: eevee
+      sourceRef:
+        kind: HelmRepository
+        name: eevee
+        namespace: flux-system
+      interval: 10m
+  values:
+    operator:
+      # Enable the operator chart
+      enabled: true
+
+    crds:
+      # Enable the crd install job chart
+      enabled: true
+
+    bot:
+      # Enable the bot chart
+      enabled: true
+
+      ipcConfig:
+        name: eevee-ipc-config
+        spec:
+          nats:
+            managed:
+              enabled: true
+              image: docker.io/nats:latest
+            token:
+              generate: true
+
+      toolbox:
+        enabled: true
+        spec:
+          size: 1
+          image: ghcr.io/eeveebot/cli:latest
+          pullPolicy: Always
+          metrics: true
+          metricsPort: 8080
+          ipcConfig: eevee-ipc-config
+
+      chatConnectionIrc:
+        enabled: true
+        spec:
+          ipcConfig: eevee-ipc-config
+          image: ghcr.io/eeveebot/connector-irc:latest
+          metrics: true
+          metricsPort: 8080
+          connections:
+          - name: irc-wetfish-net
+            enabled: true
+            irc:
+              host: irc.wetfish.net
+              port: 6697
+              ssl: true
+              autoReconnect: true
+              autoReconnectWait: 5000
+              autoReconnectMaxRetries: 10
+              autoRejoin: true
+              autoRejoinWait: 5000
+              autoRejoinMaxRetries: 5
+              pingInterval: 30
+              pingTimeout: 120
+            ident:
+              nick: eevee-dev
+              username: eevee-dev
+              gecos: eevee.bot
+              version: "0.4.20"
+              quitMsg: "eevee 0.4.20"
+            postConnect:
+            - action: join
+              join:
+              - channel: '#eevee'
