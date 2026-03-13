@@ -84,6 +84,7 @@ spec:
 
           # Module name - this identifies it as a toolbox
           moduleName: toolbox
+
       - name: router
         spec:
           # Number of module instances to deploy
