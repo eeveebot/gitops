@@ -60,12 +60,9 @@ spec:
                   name: nats-auth-secret
                 key: token
 
-      # Toolbox configuration
-      toolbox:
-        # Enable toolbox deployment
-        enabled: true
-
-        # Toolbox spec
+      # Bot Modules
+      botModules:
+      - name: toolbox
         spec:
           # Number of toolbox instances to deploy
           size: 1
@@ -85,10 +82,8 @@ spec:
           # IPC configuration name
           ipcConfig: eevee-bot
 
-      
-
-      # Bot Modules
-      botModules:
+          # Module name - this identifies it as a toolbox
+          moduleName: toolbox
       - name: router
         spec:
           # Number of module instances to deploy
