@@ -105,7 +105,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/admin:1.2.15
+            image: ghcr.io/eeveebot/admin:1.2.16
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -157,6 +157,11 @@ spec:
                   limit: 100
                   interval: 1m
                 showCommandRegistry:
+                  mode: drop
+                  level: user
+                  limit: 100
+                  interval: 1m
+                listBotModules:
                   mode: drop
                   level: user
                   limit: 100
