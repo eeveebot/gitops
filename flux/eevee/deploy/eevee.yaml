@@ -135,6 +135,8 @@ spec:
           # Module name
           moduleName: admin
 
+          mountOperatorApiToken: true
+
           moduleConfig: |
             admins:
             - displayName: "goos"
@@ -165,6 +167,11 @@ spec:
                 limit: 3
                 interval: 1m
               moduleUptime:
+                mode: drop
+                level: user
+                limit: 3
+                interval: 1m
+              moduleRestart:
                 mode: drop
                 level: user
                 limit: 3
