@@ -212,6 +212,21 @@ spec:
                 level: user
                 limit: 10
                 interval: 1m
+        - name: seen
+          spec:
+            size: 1
+            image: ghcr.io/eeveebot/seen:latest
+            pullPolicy: Always
+            metrics: true
+            metricsPort: 8080
+            ipcConfig: eevee-bot
+            moduleName: seen
+            moduleConfig: |
+              ratelimit:
+                mode: drop
+                level: user
+                limit: 5
+                interval: 1m
         - name: help
           spec:
             # Number of module instances to deploy
