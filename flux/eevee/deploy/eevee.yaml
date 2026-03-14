@@ -461,8 +461,8 @@ spec:
 
               # IRC Ident information
               ident:
-                nick: eevee-dev
-                username: eevee-dev
+                nick: eevee
+                username: eevee
                 gecos: eevee.bot
                 version: "0.4.20"
                 quitMsg: "eevee 0.4.20"
@@ -474,6 +474,7 @@ spec:
                 join:
                 - channel: '#eevee'
                 - channel: '#botspam'
+                - channel: '#wetfish'
 
               # Send broadcast events for all received messages
               broadcastMessages: true
