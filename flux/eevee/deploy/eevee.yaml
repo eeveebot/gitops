@@ -215,7 +215,7 @@ spec:
         - name: seen
           spec:
             size: 1
-            image: ghcr.io/eeveebot/seen:latest
+            image: ghcr.io/eeveebot/seen:1.1.0
             pullPolicy: Always
             metrics: true
             metricsPort: 8080
@@ -227,6 +227,14 @@ spec:
                 level: user
                 limit: 5
                 interval: 1m
+            # Persistent Volume Claim
+            persistentVolumeClaim:
+              storageClassName: filesystem
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 1Gi
         - name: help
           spec:
             # Number of module instances to deploy
