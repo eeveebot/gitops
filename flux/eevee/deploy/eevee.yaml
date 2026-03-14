@@ -304,6 +304,38 @@ spec:
               limit: 10
               interval: 1m
 
+      - name: weather
+        spec:
+          # Number of module instances to deploy
+          size: 1
+
+          # Container image to use
+          image: ghcr.io/eeveebot/weather:latest
+
+          # Image pull policy
+          pullPolicy: Always
+
+          # Enable metrics
+          metrics: false
+
+          # Metrics port
+          metricsPort: 8080
+
+          # IPC configuration name
+          ipcConfig: eevee-bot
+
+          # Module name
+          moduleName: weather
+
+          # Module config
+          moduleConfig: |
+            ratelimit:
+              mode: drop
+              level: user
+              limit: 10
+              interval: 1m
+          envSecret:
+            name: eevee-bot-weather-secrets
 
       - name: connector-irc-wetfish
         spec:

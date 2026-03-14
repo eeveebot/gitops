@@ -7,3 +7,4 @@ resources:
 - crds.yaml
 - eevee.yaml
 - operator-api-token.sops.yaml
+- weather-secrets.sops.yaml
