@@ -339,7 +339,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/tell:2.2.12
+            image: ghcr.io/eeveebot/tell:2.2.13
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
