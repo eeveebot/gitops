@@ -148,6 +148,11 @@ spec:
                 # Currently supporting IRC hostmask identification
                 irc:
                   hostmask: "goos@Fish-tri.8c3.136.150.IP"
+            ratelimit:
+              mode: drop
+              level: user
+              limit: 5
+              interval: 1m
 
       - name: echo
         spec:
