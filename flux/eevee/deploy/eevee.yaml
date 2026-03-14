@@ -157,27 +157,27 @@ spec:
               join:
                 mode: drop
                 level: user
-                limit: 3
+                limit: 100
                 interval: 1m
               part:
                 mode: drop
                 level: user
-                limit: 3
+                limit: 100
                 interval: 1m
               showRatelimits:
                 mode: drop
                 level: user
-                limit: 3
+                limit: 100
                 interval: 1m
               moduleUptime:
                 mode: drop
                 level: user
-                limit: 3
+                limit: 100
                 interval: 1m
               moduleRestart:
                 mode: drop
                 level: user
-                limit: 3
+                limit: 100
                 interval: 1m
 
       - name: echo
@@ -332,7 +332,7 @@ spec:
             ratelimit:
               mode: drop
               level: user
-              limit: 10
+              limit: 5
               interval: 1m
 
           envSecret:
