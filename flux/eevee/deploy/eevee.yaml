@@ -109,7 +109,8 @@ spec:
           moduleName: router
 
           # Router configuration
-          moduleConfig: {}
+          moduleConfig: |
+            {}
 
       - name: admin
         spec:
@@ -134,7 +135,7 @@ spec:
           # Module name
           moduleName: admin
 
-          moduleConfig:
+          moduleConfig: |
             admins:
             - displayName: "goos"
               # Unique identifier for this admin
@@ -195,7 +196,7 @@ spec:
           moduleName: irc
 
           # IRC configuration
-          moduleConfig:
+          moduleConfig: |
             # List of IRC connections
             connections:
             # Display name for this network (no . or * or > allowed)
