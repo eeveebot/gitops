@@ -21,6 +21,9 @@ spec:
         name: eevee
         namespace: flux-system
       interval: 10m
+  valuesFrom:
+    - kind: Secret
+      name: operator-api-token
   values:
     # eevee Helm values
 

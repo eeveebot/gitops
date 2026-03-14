@@ -5,3 +5,4 @@ resources:
 - helmrepo.yaml
 - crds.yaml
 - eevee.yaml
+- operator-api-token.sops.yaml

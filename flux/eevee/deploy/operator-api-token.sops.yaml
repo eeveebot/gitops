@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: operator-api-token
+  namespace: eevee-bot
+stringData:
+  values.yaml: ENC[AES256_GCM,data:wVOleWBH08k154GlNIoaF4B4Or310bt+Ds7ZKj2qLwtIe+NmFXQa8zl+L+A/PMdoXZeoJtHui9yHnOltcqQ7AaTe56/JrtgqV4o=,iv:p8I++KMosMEQYtNgzLHBfwYTzDTOmcacCR8sHYm07ew=,tag:+Fbn6BGX7swM2IKV5eQ4lA==,type:str]
+sops:
+  age:
+    - recipient: age1cgrs4dhzusfgkqg5dcyepzpfttlf3cppjd3zuv0l4qju7cmq7fpsqltd7r
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBvemFWYmNRNWo3RlM3aENL
+        cFlRQ3pRejJmUlNDbFJXZGFER3Y0RnhselhVCnRqaHFJR0pJV0RaSEVqdUF4RE1v
+        Mm1wUVpPdWV5TWxhaWpDQ0krZm1TRjQKLS0tIEhzRUJXQUhIMlRheTFPQlJpcm5x
+        WVB4dlZGcW5aaitDMVdxYldPZ0V6VDQKPMCoij/1r7E0UTpGaa9FUsjWRVCdiX5R
+        bjCggZoghYi+wH0nuVM6g74rF2sggCx6HnXPogY+VIWZ3ItVogppog==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-03-14T03:13:31Z"
+  mac: ENC[AES256_GCM,data:FrfkOTsaI9YNga/HflSXkOhvHmc9fg0OOMAynMQGAvmb6ZSqka13huhjIIz0SVJgzLJm4tqMIjqKMtoOZOYnqXuYkFUqj5n1Ih09X0OX5kHBUOF5RTQH1p3yOKP8Z+6jBNUVMmrCkxuJBOMSLeR8lzQJzSnAJEX7o2WxgbRc/d4=,iv:yL29pB5jHEAub00COdzwmnhhNrmLCujHwVo9OTuwlWg=,tag:wtWTh3zPue192yhPtDe7hg==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  version: 3.12.1
