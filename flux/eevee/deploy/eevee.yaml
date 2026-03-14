@@ -23,7 +23,7 @@ spec:
       interval: 10m
   valuesFrom:
     - kind: Secret
-      name: operator-api-token
+      name: eevee-bot-operator-api-token
   values:
     # eevee Helm values
 
