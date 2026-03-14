@@ -147,7 +147,7 @@ spec:
               authentication:
                 # Currently supporting IRC hostmask identification
                 irc:
-                  hostmask: "goos!goos@Fish-tri.8c3.136.150.IP"
+                  hostmask: "goos@Fish-tri.8c3.136.150.IP"
 
       - name: echo
         spec:
