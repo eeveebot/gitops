@@ -113,7 +113,13 @@ spec:
 
           # Router configuration
           moduleConfig: |
-            {}
+            blocklist:
+            - pattern: ".*"
+              enabled: true
+              description: "Ignore all from fishy-bot"
+              platform: "irc"
+              instance: "irc-wetfish-net"
+              user: "fishy.*"
 
       - name: admin
         spec:
