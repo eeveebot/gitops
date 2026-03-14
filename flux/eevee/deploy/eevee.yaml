@@ -80,7 +80,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/router:1.2.18
+            image: ghcr.io/eeveebot/router:2.0.0
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
