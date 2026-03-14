@@ -304,6 +304,40 @@ spec:
               limit: 10
               interval: 1m
 
+      - name: urltitle
+        spec:
+          # Number of module instances to deploy
+          size: 1
+
+          # Container image to use
+          image: ghcr.io/eeveebot/urltitle:latest
+
+          # Image pull policy
+          pullPolicy: Always
+
+          # Enable metrics
+          metrics: false
+
+          # Metrics port
+          metricsPort: 8080
+
+          # IPC configuration name
+          ipcConfig: eevee-bot
+
+          # Module name
+          moduleName: urltitle
+
+          # Module config
+          moduleConfig: |
+            ratelimit:
+              mode: drop
+              level: user
+              limit: 5
+              interval: 1m
+
+          envSecret:
+            name: eevee-bot-urltitle-secrets
+
       - name: weather
         spec:
           # Number of module instances to deploy

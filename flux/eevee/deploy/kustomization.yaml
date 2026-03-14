@@ -8,3 +8,4 @@ resources:
 - eevee.yaml
 - operator-api-token.sops.yaml
 - weather-secrets.sops.yaml
+- urltitle-secrets.sops.yaml
