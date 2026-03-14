@@ -242,6 +242,37 @@ spec:
               limit: 10
               interval: 1m
 
+      - name: help
+        spec:
+          # Number of module instances to deploy
+          size: 1
+
+          # Container image to use
+          image: ghcr.io/eeveebot/help:latest
+
+          # Image pull policy
+          pullPolicy: Always
+
+          # Enable metrics
+          metrics: false
+
+          # Metrics port
+          metricsPort: 8080
+
+          # IPC configuration name
+          ipcConfig: eevee-bot
+
+          # Module name
+          moduleName: help
+
+          # Module config
+          moduleConfig: |
+            ratelimit:
+              mode: drop
+              level: user
+              limit: 10
+              interval: 1m
+
       - name: calculator
         spec:
           # Number of module instances to deploy
