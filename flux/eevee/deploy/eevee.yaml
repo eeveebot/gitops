@@ -521,4 +521,4 @@ spec:
               # Settings related to command modules
               commands:
                 # Common prefix regex to add to registered command regexes
-                commonPrefixRegex: "^="
+                commonPrefixRegex: "^-"
