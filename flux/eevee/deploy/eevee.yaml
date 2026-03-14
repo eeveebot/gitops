@@ -412,6 +412,46 @@ spec:
               requests:
                 storage: 1Gi
 
+      - name: tell
+        spec:
+          # Number of module instances to deploy
+          size: 1
+
+          # Container image to use
+          image: ghcr.io/eeveebot/tell:latest
+
+          # Image pull policy
+          pullPolicy: Always
+
+          # Enable metrics
+          metrics: false
+
+          # Metrics port
+          metricsPort: 8080
+
+          # IPC configuration name
+          ipcConfig: eevee-bot
+
+          # Module name
+          moduleName: tell
+
+          # Module config
+          moduleConfig: |
+            ratelimit:
+              mode: drop
+              level: user
+              limit: 5
+              interval: 1m
+
+          # Persistent Volume Claim
+          persistentVolumeClaim:
+            storageClassName: filesystem
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+
       - name: connector-irc-wetfish
         spec:
           # Number of module instances to deploy
