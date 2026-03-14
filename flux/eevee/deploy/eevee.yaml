@@ -398,7 +398,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/connector-irc:1.2.10
+            image: ghcr.io/eeveebot/connector-irc:1.2.11
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
