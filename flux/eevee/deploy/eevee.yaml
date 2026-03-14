@@ -166,7 +166,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/echo:1.2.8
+            image: ghcr.io/eeveebot/echo:1.2.9
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
