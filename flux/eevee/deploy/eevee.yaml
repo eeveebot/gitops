@@ -334,8 +334,18 @@ spec:
               level: user
               limit: 10
               interval: 1m
+
           envSecret:
             name: eevee-bot-weather-secrets
+
+          # Persistent Volume Claim
+          persistentVolumeClaim:
+            storageClassName: filesystem
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
 
       - name: connector-irc-wetfish
         spec:
@@ -398,6 +408,7 @@ spec:
                 action: join
                 join:
                 - channel: '#eevee'
+                - channel: '#botspam'
 
               # Send broadcast events for all received messages
               broadcastMessages: true
