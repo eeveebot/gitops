@@ -172,6 +172,10 @@ spec:
           # Module name
           moduleName: echo
 
+          # Module config
+          moduleConfig: |
+            {}
+
       - name: connector-irc-wetfish
         spec:
           # Number of module instances to deploy
