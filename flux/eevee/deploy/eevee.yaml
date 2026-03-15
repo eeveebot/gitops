@@ -80,7 +80,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/router:2.1.2
+            image: ghcr.io/eeveebot/router:2.2.0
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -424,7 +424,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/connector-irc:1.2.12
+            image: ghcr.io/eeveebot/connector-irc:1.3.0
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -482,3 +482,39 @@ spec:
                 commands:
                   # Common prefix regex to add to registered command regexes
                   commonPrefixRegex: "^-"
+
+        # - name: connector-discord
+        #   spec:
+        #     # Number of module instances to deploy
+        #     size: 1
+        #     # Container image to use
+        #     image: ghcr.io/eeveebot/urltitle:2.2.9
+        #     # Image pull policy
+        #     pullPolicy: Always
+        #     # Enable metrics
+        #     metrics: false
+        #     # Metrics port
+        #     metricsPort: 8080
+        #     # IPC configuration name
+        #     ipcConfig: eevee-bot
+        #     # Module name
+        #     moduleName: connector-discord
+        #     # Module config
+        #     moduleConfig: |
+        #       ratelimit:
+        #         mode: drop
+        #         level: user
+        #         limit: 5
+        #         interval: 1m
+        #       connections:
+        #         - name: "eevee"
+        #           ident:
+        #             quitMsg: "eevee.bot shutting down"
+        #           discord:
+        #             intents:
+        #               - "GUILDS"
+        #               - "GUILD_MESSAGES"
+        #               - "MESSAGE_CONTENT"
+        #           postConnect: []
+        #     envSecret:
+        #       name: eevee-bot-connector-discord-secrets
