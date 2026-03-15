@@ -9,3 +9,4 @@ resources:
 - operator-api-token.sops.yaml
 - weather-secrets.sops.yaml
 - urltitle-secrets.sops.yaml
+- eevee-bot-connector-discord-secrets.sops.yaml
