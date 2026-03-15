@@ -64,7 +64,7 @@ spec:
             # Number of toolbox instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/cli:1.2.11
+            image: ghcr.io/eeveebot/cli:1.2.12
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -80,7 +80,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/router:2.3.11
+            image: ghcr.io/eeveebot/router:2.3.12
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
