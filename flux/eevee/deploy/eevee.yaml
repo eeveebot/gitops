@@ -61,10 +61,10 @@ spec:
       botModules:
         - name: cli
           spec:
-            # Number of toolbox instances to deploy
+            # Number of cli instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/cli:1.2.14
+            image: ghcr.io/eeveebot/cli:1.2.15
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -482,7 +482,6 @@ spec:
                 commands:
                   # Common prefix regex to add to registered command regexes
                   commonPrefixRegex: "^-"
-
 # - name: connector-discord
 #   spec:
 #     # Number of module instances to deploy
