@@ -215,7 +215,7 @@ spec:
         - name: seen
           spec:
             size: 1
-            image: ghcr.io/eeveebot/seen:1.2.3
+            image: ghcr.io/eeveebot/seen:1.2.4
             pullPolicy: Always
             metrics: true
             metricsPort: 8080
