@@ -64,7 +64,7 @@ spec:
             # Number of toolbox instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/cli:1.2.13
+            image: ghcr.io/eeveebot/cli:1.2.14
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -80,7 +80,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/router:2.4.1
+            image: ghcr.io/eeveebot/router:2.4.2
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -105,7 +105,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/admin:2.2.0
+            image: ghcr.io/eeveebot/admin:2.2.1
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -171,7 +171,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/echo:1.2.13
+            image: ghcr.io/eeveebot/echo:1.2.14
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -194,7 +194,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/emote:1.2.13
+            image: ghcr.io/eeveebot/emote:1.2.14
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -215,7 +215,7 @@ spec:
         - name: seen
           spec:
             size: 1
-            image: ghcr.io/eeveebot/seen:1.3.7
+            image: ghcr.io/eeveebot/seen:1.3.8
             pullPolicy: Always
             metrics: true
             metricsPort: 8080
@@ -240,7 +240,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/help:2.3.0
+            image: ghcr.io/eeveebot/help:2.3.1
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -263,7 +263,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/calculator:1.3.2
+            image: ghcr.io/eeveebot/calculator:1.3.3
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -286,7 +286,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/dice:1.2.12
+            image: ghcr.io/eeveebot/dice:1.2.13
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -309,7 +309,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/superslap:1.1.7
+            image: ghcr.io/eeveebot/superslap:1.1.8
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -335,7 +335,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/urltitle:2.4.1
+            image: ghcr.io/eeveebot/urltitle:2.4.2
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -360,7 +360,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/weather:1.3.3
+            image: ghcr.io/eeveebot/weather:1.3.5
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -393,7 +393,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/tell:2.2.20
+            image: ghcr.io/eeveebot/tell:2.2.21
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -424,7 +424,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/connector-irc:1.5.5
+            image: ghcr.io/eeveebot/connector-irc:1.5.6
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
