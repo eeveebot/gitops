@@ -59,7 +59,7 @@ spec:
                 key: token
       # Bot Modules
       botModules:
-        - name: toolbox
+        - name: cli
           spec:
             # Number of toolbox instances to deploy
             size: 1
@@ -73,8 +73,8 @@ spec:
             metricsPort: 8080
             # IPC configuration name
             ipcConfig: eevee-bot
-            # Module name - this identifies it as a toolbox
-            moduleName: toolbox
+            # Module name - this identifies it as a cli
+            moduleName: cli
         - name: router
           spec:
             # Number of module instances to deploy
@@ -419,7 +419,7 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
-        - name: connector-irc-wetfish
+        - name: connector-irc
           spec:
             # Number of module instances to deploy
             size: 1
@@ -434,7 +434,7 @@ spec:
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name - this identifies it as an IRC connector
-            moduleName: irc
+            moduleName: connector-irc
             # IRC configuration
             moduleConfig: |
               # List of IRC connections
@@ -482,6 +482,7 @@ spec:
                 commands:
                   # Common prefix regex to add to registered command regexes
                   commonPrefixRegex: "^-"
+
 # - name: connector-discord
 #   spec:
 #     # Number of module instances to deploy
