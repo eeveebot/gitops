@@ -328,8 +328,8 @@ spec:
                 limit: 10
                 interval: 1m
               invulnerableUsers:
-                hostmasks:
-                  - ".*@Fish-n6v.ee5.48.144.IP"
+                hostmasks: []
+                # - ".*@Fish-n6v.ee5.48.144.IP"
         - name: urltitle
           spec:
             # Number of module instances to deploy
