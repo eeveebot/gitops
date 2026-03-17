@@ -105,7 +105,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/admin:2.2.1
+            image: ghcr.io/eeveebot/admin:2.3.0
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -130,6 +130,17 @@ spec:
                   # Currently supporting IRC hostmask identification
                   irc:
                     hostmask: "goos@Fish-tri.8c3.136.150.IP"
+              - displayName: "goos|m"
+              # Unique identifier for this admin
+                uuid: "ef6766a1-e30c-4b62-b792-234884448042"
+                # Platforms this admin is accepted on (regex patterns)
+                acceptedPlatforms:
+                - "irc"
+                # Authentication methods for this admin
+                authentication:
+                  # Currently supporting IRC hostmask identification
+                  irc:
+                    hostmask: "weazzywetf@Fish-n6v.ee5.48.144.IP"
               ratelimits:
                 join:
                   mode: drop
