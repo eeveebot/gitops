@@ -1,3 +1,4 @@
 flux/.sops/**
 .ansible/
 sshkey/**
+ansible/output/**

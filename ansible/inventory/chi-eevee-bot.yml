@@ -2,7 +2,8 @@
 
 control_plane:
   hosts:
-    chi101.eevee.bot:
+    chi101-eevee-bot:
+      ansible_host: chi101.eevee.bot
       ansible_user: root
 
 worker:
