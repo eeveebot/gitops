@@ -30,11 +30,11 @@ spec:
         namespace: flux-system
       interval: 60m
   values:
+    operator:
+      replicas: 1
     cni:
       exclusive: false
     kubeProxyReplacement: true
-    operator:
-      replicas: 1
     k8sServiceHost: "rke2-server"
     k8sServicePort: 6443
     routingMode: tunnel
@@ -70,7 +70,7 @@ spec:
       enabled: true
     nodePort:
       enabled: true
-    l2announcements:
+    bgpControlPlane:
       enabled: true
     ipv4NativeRoutingCIDR: ""
     ipv6NativeRoutingCIDR: ""
@@ -93,4 +93,7 @@ spec:
               cidrs:
                 - "172.16.0.0/16"
               maskSize: 24
-    
+            ipv6:
+              cidrs:
+                - "fda8:af7c:f3da::/64"
+              maskSize: 80
