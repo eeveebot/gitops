@@ -75,11 +75,11 @@ spec:
     ipv4NativeRoutingCIDR: ""
     ipv6NativeRoutingCIDR: ""
     enableIPv4Masquerade: true
-    enableIPv6Masquerade: false
+    enableIPv6Masquerade: true
     ipv4:
       enabled: true
     ipv6:
-      enabled: false
+      enabled: true
     endpointRoutes:
       enabled: true
     envoy:
