@@ -2,11 +2,15 @@
 apiVersion: "cilium.io/v2alpha1"
 kind: CiliumLoadBalancerIPPool
 metadata:
-  name: "vlan10"
+  name: "eevee-lbip-001"
 spec:
   blocks:
-  - cidr: "192.168.10.0/24"
-  allowFirstLastIPs: "No"
+  - cidr: "216.128.154.3/32"
+  - cidr: "2001:19f0:5c00:14dc::100/128"
+  allowFirstLastIPs: "Yes"
   serviceSelector:
     matchExpressions:
-      - {key: ip-pool, operator: In, values: [vlan10]}
+      - key: ip-pool
+        operator: In
+        values:
+        - eevee-lbip-001

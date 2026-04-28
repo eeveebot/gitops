@@ -1,0 +1,72 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumBGPAdvertisement
+metadata:
+  name: bgpadvertisements
+  labels:
+    advertise: bgp
+spec:
+  advertisements:
+  - advertisementType: "Service"
+    service:
+      addresses:
+        - LoadBalancerIP
+    selector:
+      matchExpressions:
+      - key: bgp
+        operator: In
+        values:
+          - enabled
+  - advertisementType: "CiliumPodIPPool"
+    selector:
+      matchExpressions:
+      - key: bgp
+        operator: In
+        values:
+          - enabled
+
+---
+apiVersion: cilium.io/v2
+kind: CiliumBGPPeerConfig
+metadata:
+  name: bgp-peer-config
+spec:
+  authSecretRef: cilium-bgp-peer-secret
+  gracefulRestart:
+    enabled: true
+  ebgpMultihop: 2
+  families:
+  - afi: ipv4
+    safi: unicast
+    advertisements:
+      matchLabels:
+        advertise: bgp
+  - afi: ipv6
+    safi: unicast
+    advertisements:
+      matchLabels:
+        advertise: bgp
+
+---
+apiVersion: cilium.io/v2
+kind: CiliumBGPClusterConfig
+metadata:
+  name: bgp-cluster-config
+spec:
+  nodeSelector:
+    matchLabels: 
+      node-role.kubernetes.io/bgp: "true"
+  bgpInstances:
+  - name: bgp
+    localASN: 4288000114
+    peers:
+    - name: bgp-v4
+      peerASN: 64515
+      peerAddress: 169.254.169.254
+      peerConfigRef:
+        name: bgp-peer-config
+    - name: bgp-v6
+      peerASN: 64515
+      peerAddress: 2001:19f0:ffff::1
+      peerConfigRef:
+        name: bgp-peer-config

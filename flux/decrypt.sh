@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export SOPS_AGE_KEY_FILE="./.sops/ny-eevee-bot.agekey"
+export SOPS_AGE_KEY_FILE="./.sops/flux.agekey"
 sops \
   --decrypt \
   --in-place \

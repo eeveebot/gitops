@@ -2,8 +2,8 @@
 
 control_plane:
   hosts:
-    ny101.eevee.bot:
-      ansible_user: ubuntu
+    chi101.eevee.bot:
+      ansible_user: root
 
 worker:
   hosts: {}

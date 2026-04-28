@@ -135,10 +135,10 @@ data:
     {
       "storageClassConfigs": {
         "filesystem": {
-          "sharedFilesystemPath": "/mnt/csi"
+          "sharedFilesystemPath": "/mnt/vfs/csi"
         },
         "filesystem-noretain": {
-          "sharedFilesystemPath": "/mnt/csi"
+          "sharedFilesystemPath": "/mnt/vfs/csi"
         }
       }
     }

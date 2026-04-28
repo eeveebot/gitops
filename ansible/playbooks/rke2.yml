@@ -2,109 +2,396 @@
 
 - name: Install rke2
   hosts: all
-  become: true
+  gather_facts: true
   tasks:
-    - name: Ensure packages are installed
-      become: true
-      become_user: root
-      ansible.builtin.apt:
-        pkg:
-          - gnupg2
-          - cloud-guest-utils
-          - gdisk
-          - linux-image-generic-hwe-24.04
-        state: latest
-        update_cache: true
+    - name: Setup prereq packages
+      block:
+        - name: Ensure packages are installed
+          become: true
+          become_user: root
+          ansible.builtin.apt:
+            pkg:
+              - gnupg2
+              - cloud-guest-utils
+              - gdisk
+              - ufw
+              - linux-image-generic-hwe-24.04
+            state: present
+            update_cache: true
 
-    - name: Disable UFW
-      become: true
-      become_user: root
-      ansible.builtin.command:
-        cmd: "ufw disable"
-      changed_when: true
-      failed_when: false
+        - name: Reboot
+          become: true
+          become_user: root
+          ansible.builtin.reboot: {}
 
-    - name: Ensure ufw is purged
-      become: true
-      become_user: root
-      ansible.builtin.apt:
-        pkg:
-          - ufw
-        state: absent
+    - name: Configure host networking
+      block:
+        - name: Disable/Mask systemd-networkd-wait-online.service
+          become: true
+          become_user: root
+          ansible.builtin.systemd_service:
+            name: systemd-networkd-wait-online.service
+            state: stopped
+            enabled: false
+            masked: true
 
-    - name: Fetch rke2 installer
-      become: true
-      become_user: root
-      ansible.builtin.get_url:
-        url: https://get.rke2.io
-        dest: /tmp/install_rke2.sh
-        mode: '0700'
-        owner: root
-        group: root
+    - name: Setup UFW
+      block:
+        - name: Add allow rule for ssh
+          become: true
+          become_user: root
+          community.general.ufw:
+            rule: allow
+            port: ssh
+            proto: tcp
+            comment: "Ratelimit SSH"
 
-    - name: Run rke2 installer
-      become: true
-      become_user: root
-      ansible.builtin.command:
-        cmd: /tmp/install_rke2.sh
-      changed_when: true
+        - name: Add allow rule for k8s api
+          become: true
+          become_user: root
+          community.general.ufw:
+            rule: allow
+            port: 6443
+            proto: tcp
+            comment: "Ratelimit K8S API"
 
-    - name: Ensure rke2 config dir exists
-      become: true
-      become_user: root
-      ansible.builtin.file:
-        dest: /etc/rancher/rke2/
-        state: directory
-        owner: root
-        group: root
-        mode: '0700'
+        - name: Add allow rules for k8s metrics api from cluster IPs
+          become: true
+          become_user: root
+          community.general.ufw:
+            rule: allow
+            port: 10250
+            proto: tcp
+            src: "{{ item }}"
+            comment: "Allow K8S API Metrics from cluster CIDR {{ item }}"
+          loop: "{{ rke2_cluster_cidr.split(',') }}"
 
-    - name: Template rke2 config file - control-plane
-      become: true
-      become_user: root
-      ansible.builtin.template:
-        src: "{{ playbook_dir }}/../tmpl/rke2-config-server.yaml"
-        dest: /etc/rancher/rke2/config.yaml
-        owner: root
-        group: root
-        mode: '0700'
-      vars:
-        tmpl_rke2_token: "{{ rke2_token }}"
-        tmpl_cluster_cidr: "{{ rke2_cluster_cidr }}"
-        tmpl_service_cidr: "{{ rke2_service_cidr }}"
-        tmpl_cluster_dns: "{{ rke2_cluster_dns }}"
-      when:
-        - (inventory_hostname in groups['control_plane'])
+        - name: Add allow rules for other nodes - ipv4
+          become: true
+          become_user: root
+          community.general.ufw:
+            rule: allow
+            src: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}"
+            comment: "allow all from {{ item }}"
+          loop: "{{ groups['all'] }}"
 
-    - name: Template rke2 config file - agent
-      become: true
-      become_user: root
-      ansible.builtin.template:
-        src: "{{ playbook_dir }}/../tmpl/rke2-config-agent.yaml"
-        dest: /etc/rancher/rke2/config.yaml
-        owner: root
-        group: root
-        mode: '0700'
-      vars:
-        tmpl_rke2_token: "{{ rke2_token }}"
-      when:
-        - (inventory_hostname in groups['worker'])
+        - name: Add allow rules for other nodes - ipv6
+          become: true
+          become_user: root
+          community.general.ufw:
+            rule: allow
+            src: "{{ hostvars[item]['ansible_default_ipv6']['address'] }}"
+            comment: "allow all from {{ item }}"
+          loop: "{{ groups['all'] }}"
 
-    - name: Create symlink from /usr/local/share/rke2/rke2-cis-sysctl.conf to /etc/sysctl.d/
-      become: true
-      become_user: root
-      ansible.builtin.file:
-        src: /usr/local/share/rke2/rke2-cis-sysctl.conf
-        dest: /etc/sysctl.d/60-rke2-cis.conf
-        force: true
-        owner: root
-        group: root
-        state: link
+        - name: Enable UFW
+          become: true
+          become_user: root
+          community.general.ufw:
+            state: enabled
 
-    - name: Run sysctl --system
-      become: true
-      become_user: root
-      ansible.builtin.command:
-        cmd: "sysctl --system"
-      changed_when: true
-      failed_when: false
+    - name: Setup /etc/hosts
+      block:
+        - name: Add entries to /etc/hosts for rke2-server
+          become: true
+          become_user: root
+          ansible.builtin.lineinfile:
+            path: /etc/hosts
+            line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} rke2-server"
+            state: present
+          loop: "{{ groups['control_plane'] }}"
+
+    - name: Install rke2
+      block:
+        - name: Fetch rke2 installer
+          become: true
+          become_user: root
+          ansible.builtin.get_url:
+            url: https://get.rke2.io
+            dest: /tmp/install_rke2.sh
+            mode: '0700'
+            owner: root
+            group: root
+
+        - name: Run rke2 installer
+          become: true
+          become_user: root
+          ansible.builtin.command:
+            cmd: /tmp/install_rke2.sh
+          changed_when: true
+
+        - name: Ensure rke2 config dir exists
+          become: true
+          become_user: root
+          ansible.builtin.file:
+            dest: /etc/rancher/rke2/
+            state: directory
+            owner: root
+            group: root
+            mode: '0700'
+
+        - name: Template rke2 config file - control-plane
+          become: true
+          become_user: root
+          ansible.builtin.template:
+            src: "{{ playbook_dir }}/../tmpl/rke2-config-server.yaml"
+            dest: /etc/rancher/rke2/config.yaml
+            owner: root
+            group: root
+            mode: '0700'
+          vars:
+            tmpl_rke2_token: "{{ rke2_token }}"
+            tmpl_cluster_cidr: "{{ rke2_cluster_cidr }}"
+            tmpl_service_cidr: "{{ rke2_service_cidr }}"
+            tmpl_cluster_dns: "{{ rke2_cluster_dns }}"
+          when:
+            - (inventory_hostname in groups['control_plane'])
+
+        - name: Template rke2 config file - agent
+          become: true
+          become_user: root
+          ansible.builtin.template:
+            src: "{{ playbook_dir }}/../tmpl/rke2-config-agent.yaml"
+            dest: /etc/rancher/rke2/config.yaml
+            owner: root
+            group: root
+            mode: '0700'
+          vars:
+            tmpl_rke2_token: "{{ rke2_token }}"
+          when:
+            - (inventory_hostname in groups['worker'])
+
+        - name: Create symlink from /usr/local/share/rke2/rke2-cis-sysctl.conf to /etc/sysctl.d/
+          become: true
+          become_user: root
+          ansible.builtin.file:
+            src: /usr/local/share/rke2/rke2-cis-sysctl.conf
+            dest: /etc/sysctl.d/60-rke2-cis.conf
+            force: true
+            owner: root
+            group: root
+            state: link
+
+        - name: Apply sysctls
+          become: true
+          become_user: root
+          ansible.builtin.command:
+            cmd: sysctl --system
+          changed_when: true
+
+        - name: Remove server line from first control plane node config
+          become: true
+          become_user: root
+          ansible.builtin.lineinfile:
+            path: /etc/rancher/rke2/config.yaml
+            regexp: '^server:'
+            state: absent
+          when: inventory_hostname == groups['control_plane'][0]
+
+        - name: Remove token line from first control plane node config
+          become: true
+          become_user: root
+          ansible.builtin.lineinfile:
+            path: /etc/rancher/rke2/config.yaml
+            regexp: '^token:'
+            state: absent
+          when: inventory_hostname == groups['control_plane'][0]
+
+        - name: Start rke2-server service on first control plane node
+          become: true
+          become_user: root
+          ansible.builtin.systemd:
+            name: rke2-server
+            state: started
+            enabled: true
+          when: inventory_hostname == groups['control_plane'][0]
+
+        - name: Wait for first control plane node to be registered
+          become: true
+          become_user: root
+          ansible.builtin.command:
+            cmd: /var/lib/rancher/rke2/bin/kubectl get nodes --kubeconfig /etc/rancher/rke2/rke2.yaml -o json
+          register: kubectl_result
+          until: >
+            (kubectl_result.stdout | from_json | json_query('items[*].metadata.name') | length > 0) and
+            ((groups['control_plane'][0] | split('.') | first) in (kubectl_result.stdout | from_json | json_query('items[*].metadata.name')))
+          retries: 30
+          delay: 10
+          when: inventory_hostname == groups['control_plane'][0]
+          changed_when: false
+
+        - name: Extract token from first control plane node
+          become: true
+          become_user: root
+          ansible.builtin.slurp:
+            src: /var/lib/rancher/rke2/server/token
+          register: rke2_token_file
+          when: inventory_hostname == groups['control_plane'][0]
+
+        - name: Set fact for extracted token
+          ansible.builtin.set_fact:
+            extracted_token: "{{ rke2_token_file.content | b64decode | trim }}"
+          when: inventory_hostname == groups['control_plane'][0]
+
+        - name: Add token to remaining control plane nodes
+          become: true
+          become_user: root
+          ansible.builtin.lineinfile:
+            path: /etc/rancher/rke2/config.yaml
+            line: "token: {{ hostvars[groups['control_plane'][0]]['extracted_token'] }}"
+            insertafter: '^debug: true'
+          when:
+            - inventory_hostname in groups['control_plane']
+            - inventory_hostname != groups['control_plane'][0]
+
+        - name: Add token to worker nodes
+          become: true
+          become_user: root
+          ansible.builtin.lineinfile:
+            path: /etc/rancher/rke2/config.yaml
+            line: "token: {{ hostvars[groups['control_plane'][0]]['extracted_token'] }}"
+            insertafter: '^debug: true'
+          when: inventory_hostname in groups['worker']
+
+        - name: Start rke2-server service on remaining control plane nodes
+          become: true
+          become_user: root
+          ansible.builtin.systemd:
+            name: rke2-server
+            state: started
+            enabled: true
+          when:
+            - inventory_hostname in groups['control_plane']
+            - inventory_hostname != groups['control_plane'][0]
+
+        - name: Re-add server line to first control plane node config
+          become: true
+          become_user: root
+          ansible.builtin.lineinfile:
+            path: /etc/rancher/rke2/config.yaml
+            line: "server: \"https://rke2-server:9345\""
+            insertafter: '^debug: true'
+          when: inventory_hostname == groups['control_plane'][0]
+
+        - name: Add token line to first control plane node config
+          become: true
+          become_user: root
+          ansible.builtin.lineinfile:
+            path: /etc/rancher/rke2/config.yaml
+            line: "token: {{ hostvars[groups['control_plane'][0]]['extracted_token'] }}"
+            insertafter: '^debug: true'
+          when: inventory_hostname == groups['control_plane'][0]
+
+        - name: Start rke2-agent service on worker nodes
+          become: true
+          become_user: root
+          ansible.builtin.systemd:
+            name: rke2-agent
+            state: started
+            enabled: true
+          when: inventory_hostname in groups['worker']
+
+        - name: Fetch kubeconfig
+          when: inventory_hostname == groups['control_plane'][0]
+          block:
+            - name: Read kubeconfig from first control-plane node
+              become: true
+              ansible.builtin.slurp:
+                src: /etc/rancher/rke2/rke2.yaml
+              register: kubeconfig_content
+
+            - name: Write kubeconfig locally
+              delegate_to: localhost
+              become: false
+              ansible.builtin.copy:
+                content: "{{ kubeconfig_content['content'] | b64decode }}"
+                dest: "{{ playbook_dir }}/../output/kubeconfig"
+                mode: '0600'
+
+            - name: Update kubeconfig server address to first control-plane node IP
+              delegate_to: localhost
+              become: false
+              ansible.builtin.replace:
+                path: "{{ playbook_dir }}/../output/kubeconfig"
+                regexp: 'server: https://127\.0\.0\.1:6443'
+                replace: "server: https://{{ hostvars[groups['control_plane'][0]]['ansible_default_ipv4']['address'] }}:6443"
+
+        - name: Bootstrap cilium cni
+          delegate_to: localhost
+          become: false
+          when: inventory_hostname == groups['control_plane'][0]
+          block:
+            - name: Create temporary Cilium Helm values file
+              ansible.builtin.copy:
+                content: |
+                  {{ cilium_helm_values | to_nice_yaml }}
+                dest: /tmp/cilium-initial-helm.yaml
+                mode: '0644'
+
+            - name: Add Cilium Helm repository
+              ansible.builtin.command:
+                cmd: helm repo add cilium https://helm.cilium.io/
+              changed_when: true
+              failed_when: false
+
+            - name: Update Helm repositories
+              ansible.builtin.command:
+                cmd: helm repo update
+              changed_when: true
+
+            - name: Install/Upgrade Cilium using Helm
+              ansible.builtin.shell:
+                executable: bash
+                cmd: |
+                  set -euo pipefail
+                  export KUBECONFIG="{{ playbook_dir }}/../output/kubeconfig"
+
+                  helm upgrade \
+                    --install kube-system-cilium \
+                    cilium/cilium \
+                    --values /tmp/cilium-initial-helm.yaml \
+                    --namespace kube-system \
+                    --version {{ cilium_version }}
+              changed_when: true
+
+        - name: Bootstrap with fluxcd
+          delegate_to: localhost
+          become: false
+          when: inventory_hostname == groups['control_plane'][0]
+          block:
+            - name: Run flux bootstrap
+              ansible.builtin.shell:
+                executable: bash
+                cmd: |
+                  set -euo pipefail
+                  export KUBECONFIG="{{ playbook_dir }}/../output/kubeconfig"
+
+                  flux bootstrap git \
+                    --url={{ flux_github_url }} \
+                    --branch={{ flux_github_branch }} \
+                    --path={{ flux_github_repo_path }} \
+                    --private-key-file={{ flux_github_ssh_private_key_file }} \
+                    --silent &
+
+                  sleep 10
+
+                  cat "{{ playbook_dir }}/../../flux/.sops/flux.agekey" \
+                    | kubectl \
+                      create secret generic sops-age \
+                      --namespace=flux-system \
+                      --from-file=age.agekey=/dev/stdin
+
+                  sleep 5
+
+                  flux reconcile ks flux-system --with-source
+
+                  sleep 5
+
+                  helm uninstall --namespace kube-system kube-system-cilium
+
+                  sleep 30
+
+                  flux reconcile hr cilium --force
+
+                  wait
+              changed_when: true

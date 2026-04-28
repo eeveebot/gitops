@@ -81,10 +81,11 @@ spec:
       single: false
       type: LoadBalancer
       labels:
-        ip-pool: vlan10
+        ip-pool: eevee-lbip-001
       annotations:
-        "lbipam.cilium.io/ips": "192.168.10.79"
-        "lbipam.cilium.io/sharing-key": "192.168.10.79"
+        "lbipam.cilium.io/ips": "216.128.154.3,2001:19f0:5c00:14dc::100"
+        "lbipam.cilium.io/sharing-key": "216.128.154.3,2001:19f0:5c00:14dc::100"
       ipFamilyPolicy: SingleStack
       ipFamilies:
       - IPv4
+      - IPv6

@@ -1,9 +1,6 @@
 ---
-
 debug: true
 
-server: "https://rke2.ny.eevee.bot:9345"
-
-token: "{{ tmpl_rke2_token }}"
+server: "https://rke2-server:9345"
 
 protect-kernel-defaults: true
