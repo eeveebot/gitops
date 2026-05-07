@@ -320,7 +320,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/superslap:1.4.0
+            image: ghcr.io/eeveebot/superslap:1.5.0
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
