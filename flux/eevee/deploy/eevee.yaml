@@ -109,7 +109,7 @@ spec:
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
-            metrics: false
+            metrics: true
             # Metrics port
             metricsPort: 9000
             # IPC configuration name
@@ -186,7 +186,7 @@ spec:
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
-            metrics: false
+            metrics: true
             # Metrics port
             metricsPort: 9000
             # IPC configuration name
@@ -209,7 +209,7 @@ spec:
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
-            metrics: false
+            metrics: true
             # Metrics port
             metricsPort: 9000
             # IPC configuration name
@@ -255,7 +255,7 @@ spec:
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
-            metrics: false
+            metrics: true
             # Metrics port
             metricsPort: 9000
             # IPC configuration name
@@ -278,7 +278,7 @@ spec:
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
-            metrics: false
+            metrics: true
             # Metrics port
             metricsPort: 9000
             # IPC configuration name
@@ -301,7 +301,7 @@ spec:
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
-            metrics: false
+            metrics: true
             # Metrics port
             metricsPort: 9000
             # IPC configuration name
@@ -324,7 +324,7 @@ spec:
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
-            metrics: false
+            metrics: true
             # Metrics port
             metricsPort: 9000
             # IPC configuration name
@@ -350,7 +350,7 @@ spec:
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
-            metrics: false
+            metrics: true
             # Metrics port
             metricsPort: 9000
             # IPC configuration name
@@ -375,7 +375,7 @@ spec:
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
-            metrics: false
+            metrics: true
             # Metrics port
             metricsPort: 9000
             # IPC configuration name
@@ -408,7 +408,7 @@ spec:
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
-            metrics: false
+            metrics: true
             # Metrics port
             metricsPort: 9000
             # IPC configuration name
