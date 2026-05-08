@@ -70,7 +70,7 @@ spec:
             # Enable metrics
             metrics: true
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name - this identifies it as a cli
@@ -86,7 +86,7 @@ spec:
             # Enable metrics
             metrics: true
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name - this identifies it as a router
@@ -111,7 +111,7 @@ spec:
             # Enable metrics
             metrics: false
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name
@@ -188,7 +188,7 @@ spec:
             # Enable metrics
             metrics: false
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name
@@ -211,7 +211,7 @@ spec:
             # Enable metrics
             metrics: false
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name
@@ -229,7 +229,7 @@ spec:
             image: ghcr.io/eeveebot/seen:1.4.2
             pullPolicy: Always
             metrics: true
-            metricsPort: 8080
+            metricsPort: 9000
             ipcConfig: eevee-bot
             moduleName: seen
             moduleConfig: |
@@ -257,7 +257,7 @@ spec:
             # Enable metrics
             metrics: false
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name
@@ -280,7 +280,7 @@ spec:
             # Enable metrics
             metrics: false
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name
@@ -303,7 +303,7 @@ spec:
             # Enable metrics
             metrics: false
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name
@@ -326,7 +326,7 @@ spec:
             # Enable metrics
             metrics: false
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name
@@ -352,7 +352,7 @@ spec:
             # Enable metrics
             metrics: false
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name
@@ -377,7 +377,7 @@ spec:
             # Enable metrics
             metrics: false
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name
@@ -410,7 +410,7 @@ spec:
             # Enable metrics
             metrics: false
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name
@@ -441,7 +441,7 @@ spec:
             # Enable metrics
             metrics: true
             # Metrics port
-            metricsPort: 8080
+            metricsPort: 9000
             # IPC configuration name
             ipcConfig: eevee-bot
             # Module name - this identifies it as an IRC connector
@@ -504,7 +504,7 @@ spec:
 #     # Enable metrics
 #     metrics: false
 #     # Metrics port
-#     metricsPort: 8080
+#     metricsPort: 9000
 #     # IPC configuration name
 #     ipcConfig: eevee-bot
 #     # Module name
