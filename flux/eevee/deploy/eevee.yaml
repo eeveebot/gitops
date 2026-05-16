@@ -64,7 +64,7 @@ spec:
             # Number of cli instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/cli:2.0.1
+            image: ghcr.io/eeveebot/cli:2.0.2
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
