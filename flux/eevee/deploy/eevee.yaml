@@ -80,7 +80,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/router:2.6.2
+            image: ghcr.io/eeveebot/router:2.7.0
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
@@ -226,7 +226,7 @@ spec:
         - name: seen
           spec:
             size: 1
-            image: ghcr.io/eeveebot/seen:1.6.4
+            image: ghcr.io/eeveebot/seen:1.7.0
             pullPolicy: Always
             metrics: true
             metricsPort: 9000
@@ -458,7 +458,7 @@ spec:
             # Number of module instances to deploy
             size: 1
             # Container image to use
-            image: ghcr.io/eeveebot/connector-irc:1.7.2
+            image: ghcr.io/eeveebot/connector-irc:1.8.0
             # Image pull policy
             pullPolicy: Always
             # Enable metrics
