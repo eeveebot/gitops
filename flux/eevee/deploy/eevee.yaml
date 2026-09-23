@@ -131,7 +131,7 @@ spec:
                   irc:
                     hostmask: "goos@Fish-tri.8c3.136.150.IP"
               - displayName: "goos|m"
-              # Unique identifier for this admin
+                # Unique identifier for this admin
                 uuid: "ef6766a1-e30c-4b62-b792-234884448042"
                 # Platforms this admin is accepted on (regex patterns)
                 acceptedPlatforms:
@@ -141,6 +141,27 @@ spec:
                   # Currently supporting IRC hostmask identification
                   irc:
                     hostmask: "weazzywetf@Fish-n6v.ee5.48.144.IP"
+              - displayName: "rachel"
+                uuid: "41daaff3-3883-4504-9397-6a4bf85c47c6"
+                acceptedPlatforms:
+                - "irc"
+                authentication:
+                  irc:
+                    hostmask: "rachel@NETADMIN.VHOST"
+              - displayName: "rachel|m"
+                uuid: "984b2d9d-e8c6-445d-9ccf-2581df0afeeb"
+                acceptedPlatforms:
+                - "irc"
+                authentication:
+                  irc:
+                    hostmask: "rachelwetf@Fish-n6v.ee5.48.144.IP"
+              - displayName: "Mozai"
+                uuid: "7fa89646-7538-4e65-9b99-2e82cc5e99d5"
+                acceptedPlatforms:
+                - "irc"
+                authentication:
+                  irc:
+                    hostmask: "moses@Fish-koi5u2.leglazer.com"
               ratelimits:
                 join:
                   mode: drop
@@ -506,9 +527,14 @@ spec:
                 - # Join channels after connecting
                   action: join
                   join:
-                  - channel: '#eevee'
-                  - channel: '#botspam'
-                  - channel: '#wetfish'
+                  - channel: "#eevee"
+                  - channel: "#botspam"
+                  - channel: "#wetfish"
+                  - channel: "#permies"
+                  - channel: "#politics"
+                  - channel: "#cirrata"
+                  - channel: "#carfish"
+                  - channel: "#colorado"
 
                 # Send broadcast events for all received messages
                 broadcastMessages: true
@@ -516,6 +542,7 @@ spec:
                 commands:
                   # Common prefix regex to add to registered command regexes
                   commonPrefixRegex: "^-"
+
 # - name: connector-discord
 #   spec:
 #     # Number of module instances to deploy
