@@ -474,6 +474,40 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
+        - name: reminders
+          spec:
+            # Number of module instances to deploy
+            size: 1
+            # Container image to use
+            image: ghcr.io/eeveebot/reminders:0.2.0
+            # Image pull policy
+            pullPolicy: Always
+            # Enable metrics
+            metrics: true
+            # Metrics port
+            metricsPort: 9000
+            # IPC configuration name
+            ipcConfig: eevee-bot
+            # Module name
+            moduleName: reminders
+            # Module config
+            moduleConfig: |
+              ratelimit:
+                mode: drop
+                level: user
+                limit: 5
+                interval: 1m
+              defaultTz: "Etc/UTC"
+              maxHorizonDays: 366
+              maxRemindersPerUser: 500
+            # Persistent Volume Claim
+            persistentVolumeClaim:
+              storageClassName: filesystem
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 1Gi
         - name: connector-irc
           spec:
             # Number of module instances to deploy
